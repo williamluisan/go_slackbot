@@ -1,4 +1,4 @@
-package http_request
+package slack
 
 // data struct for event subscription test
 type EventSubsTest struct {
