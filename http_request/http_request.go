@@ -7,6 +7,10 @@ import (
 	"os"
 )
 
+func Get() {
+	
+}
+
 func Send(method, endpoint, body string) (string, string) {
 	var url = os.Getenv("URL") + endpoint
 	var client = &http.Client{}

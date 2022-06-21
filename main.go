@@ -1,10 +1,11 @@
 package main
 
 import (
+	_ "encoding/json"
 	"fmt"
 	"log"
 	"net/http"
-	_"os"
+	_ "os"
 
 	"github.com/joho/godotenv"
 	slack "github.com/williamluisan/go_slackbot/slack"
@@ -22,7 +23,8 @@ func main() {
 	// load configuration
 	loadConfig()
 
-	http.HandleFunc("/", slack.LinkIntegrationTest)
+	// http.HandleFunc("/", slack.LinkIntegrationTest)
+	http.HandleFunc("/event", slack.AppMention)
 
 	port := ":80"
 	fmt.Println("Server is running on port " + port)
