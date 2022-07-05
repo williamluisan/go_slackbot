@@ -23,7 +23,6 @@ func main() {
 	// load configuration
 	loadConfig()
 
-	// http.HandleFunc("/", slack.LinkIntegrationTest)
 	http.HandleFunc("/event", slack.AppMention)
 
 	port := ":80"

@@ -1,6 +1,7 @@
 package http_request
 
 import (
+	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -11,14 +12,21 @@ func Get() {
 	
 }
 
-func Send(method, endpoint, body string) (string, string) {
+func Send(content_type, method, endpoint string, body io.Reader) (string, string) {
 	var url = os.Getenv("URL") + endpoint
 	var client = &http.Client{}
-	var bearer = "Bearer " + os.Getenv("OAUTH_TOKEN")
-	
-	req, err := http.NewRequest(method, url, nil)
+	var bearer = "Bearer " + os.Getenv("BOT_USER_OAUTH_TOKEN")
+
+	req, err := http.NewRequest(method, url, body)
 	if err != nil {
 		log.Fatal(err)
+	}
+
+	/* HEADER */
+	if content_type != "" {
+		req.Header.Set("Content-Type")
+	} else {
+		req.Header.Set("Content-Type", "application/json")
 	}
 	req.Header.Add("Authorization", bearer)
 
