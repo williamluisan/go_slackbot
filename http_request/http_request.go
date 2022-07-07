@@ -24,7 +24,7 @@ func Send(content_type, method, endpoint string, body io.Reader) (string, string
 
 	/* HEADER */
 	if content_type != "" {
-		req.Header.Set("Content-Type")
+		req.Header.Set("Content-Type", content_type)
 	} else {
 		req.Header.Set("Content-Type", "application/json")
 	}

@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	_ "reflect"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -57,11 +58,23 @@ func AppMention(w http.ResponseWriter, r *http.Request) {
 
 		if event_type == "app_mention" {
 			text_mentioned, _ := crufter.Get(postBody, "event.blocks[0].elements[0].elements[1].text")
+			channel, _ := crufter.Get(postBody, "event.channel")
+			channel2 := fmt.Sprint(channel)
+			
+			/*
+			For the message string/statement checker, better use NLP
+			*/
 			if text_mentioned == " hi" {
-				fmt.Println('a')
-				status, response := http_request.Send("POST", "chat.postMessage", bytes.NewBuffer([]byte(`{
+				postDataStruct := AppMentionPost{channel2, "hi juga"}
+				postData, _ := json.Marshal(postDataStruct)
+				fmt.Println(string([]byte(postData)))
+				status, response := http_request.Send("", "POST", "chat.postMessage", bytes.NewBuffer([]byte(postData)))
 				
-				}`)))
+
+				/* 
+				check for success and error response here
+				this better save to log related (files or db)
+				*/
 				fmt.Println(status + ": " + response)
 			}
 		}
